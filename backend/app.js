@@ -4,7 +4,7 @@ const app = express();
 
 // routers
 const photoRouter = require("./routers/photoRouter.js")
-
+const userRouter = require("./routers/authRouter.js")
 
 require("dotenv").config();
 const {HOST} = process.env;
@@ -18,6 +18,7 @@ app.use(express.json());
 
 // rotte 
 app.use('/photo', photoRouter);
+app.use('/user', userRouter)
 
 app.listen(port,()=>{
     console.log(`server back-end: ${HOST}:${port}`);
