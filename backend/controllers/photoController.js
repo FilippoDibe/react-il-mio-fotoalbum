@@ -5,7 +5,7 @@ const errorHandler = require("../middlewares/errorHandler.js");
 
 
 const create = async (req, res) => {
-    const { title, slug, description, categories, image } = req.body;
+    const { title, slug, description, categories, image, userId } = req.body;
 
     if (!title || !description || !categories || !image) {
         return res.status(400).json({ error: 'All fields are required' });
@@ -21,14 +21,16 @@ const create = async (req, res) => {
         visible: req.body.visible ? true : false,
         categories: {
             connect: categories.map(categoryId => ({ id: categoryId }))
-        }
+        },
+        userId
     };
 
     try {
         const photo = await prisma.photo.create({
             data,
             include: {
-                categories: true
+                categories: true,
+                user:true
             }
         });
         res.status(200).json(photo);
@@ -80,7 +82,7 @@ const showBySlug = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { slug } = req.params;
-        const { title, description, categories, image } = req.body;
+        const { title, description, categories, image, userId } = req.body;
 
         const data = {
             title,
@@ -89,14 +91,16 @@ const update = async (req, res) => {
             visible: req.body.visible ? true : false,
             categories: {
                 set: categories.map(categoryId => ({ id: categoryId }))
-            }
+            },
+            userId,
         };
 
         const updatedPhoto = await prisma.photo.update({
             where: { slug },
             data,
             include: {
-                categories: true
+                categories: true,
+                user:true
             }
         });
 
