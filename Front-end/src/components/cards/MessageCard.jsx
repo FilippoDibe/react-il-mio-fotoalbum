@@ -1,21 +1,18 @@
+import cardStyle from "./Card.module.css";
+import { FaTrash, FaEdit } from 'react-icons/fa';
+// import { Link } from 'react-router-dom';
 
 
-const CardText = ({ title, content, slug, onDelete }) => {
+const MessageCard = ({ title, content, slug, onDelete }) => {
 
 
     return (
-        <div>
-            <h4 className={cardStyle.title}><strong>{title}</strong></h4>
-            <p className={cardStyle.text}>{content}</p>
-            <Link to={`/post/${slug}`} className={cardStyle.button}>Leggi di più</Link>
-            <button className={cardStyle.edit}>
-                <FaEdit />
-            </button>
-            <button className={cardStyle.trash} onClick={handleDelete}>
-                <FaTrash />
-            </button>
+        <div className={cardStyle.container}>
+            <h4 className={cardStyle.title}><strong></strong></h4>
+            <p className={cardStyle.text}></p>
+            {/* <Link to={`/post/${slug}`} className={cardStyle.button}>Leggi di più</Link> */}
         </div>
     );
 }
 
-export default CardText;
+export default MessageCard;

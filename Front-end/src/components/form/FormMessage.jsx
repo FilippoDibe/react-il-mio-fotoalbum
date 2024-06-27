@@ -5,7 +5,7 @@ export default function(){
 
 
     return(<>
-        <h1>Login</h1>
+        <h1>Lascia un messaggio</h1>
         <form >
             <input 
                 type="text"

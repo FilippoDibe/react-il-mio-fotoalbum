@@ -1,0 +1,19 @@
+.button{
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: goldenrod;
+    color: white;
+    border: none;
+}
+
+.edit{
+    background-color: #4caf50; 
+  color: white;
+  margin-left: 10px;
+}
+  
+.trash{
+    background-color: #f44336; 
+    color: white;
+    margin-left: 10px;
+}
