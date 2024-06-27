@@ -1,24 +1,12 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home.jsx';
-import Show from './pages/Show.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import Login from './pages/Login.jsx';
+import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
+import Main from './components/main/Main';
 
-
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/show" element={<Show />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-
-
-       
-      </Routes>
-    </Router>
-  );
-};
+function App() {
+    return (
+        <BrowserRouter>
+            <Main />
+        </BrowserRouter>
+    );
+}
 
 export default App;

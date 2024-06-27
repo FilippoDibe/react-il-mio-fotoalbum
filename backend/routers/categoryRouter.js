@@ -6,8 +6,8 @@ const {create, index, destroy} = require ("../controllers/categoryController.js"
 const protect = require ("../middlewares/authMiddleware.js")
 
 
-router.post("/",validator(categoryData),protect, create)
-router.get("/",protect, index)
-router.delete("/:id",protect, destroy)
+router.post("/",validator(categoryData), create)
+router.get("/", index)
+router.delete("/:id",destroy)
 
 module.exports = router;
