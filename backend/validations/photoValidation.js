@@ -1,5 +1,4 @@
 const {PrismaClient} =require ("@prisma/client");
-const { options } = require("../routers/photoRouter");
 const prisma = new PrismaClient();
 
 const photoData = {
