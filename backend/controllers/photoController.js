@@ -8,7 +8,7 @@ const create = async (req, res) => {
     const { title, slug, description, categories, image, userId } = req.body;
 
     if (!title || !description || !categories || !image) {
-        return res.status(400).json({ error: 'All fields are required' });
+        return res.status(400).json({ error: 'tutti i campi sono obbligatori' });
     }
 
     const generatedSlug = slug || await uniqueSlug(title);
@@ -34,9 +34,7 @@ const create = async (req, res) => {
             }
         });
         res.status(200).json(photo);
-    } catch (err) {
-        console.error('Error creating photo:', err);
-       
+    } catch (err) {       
         errorHandler(err, req, res);
     }
 };
@@ -106,7 +104,6 @@ const update = async (req, res) => {
 
         res.json(updatedPhoto);
     } catch (err) {
-        console.error('Error updating photo:', err);
         errorHandler(err, req, res);
     }
 };
