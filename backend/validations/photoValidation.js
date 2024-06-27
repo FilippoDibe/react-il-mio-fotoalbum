@@ -33,7 +33,7 @@ const photoData = {
             bail: true
         },
     },
-    user:{
+    userId:{
         in:["body"],
         notEmpty: {
             errorMessage: "l'user Id  è un campo obbligatorio",
@@ -56,7 +56,7 @@ const photoData = {
         },
         toInt: true
     },
-    category: {
+    categories: {
         in: ["body"],
         notEmpty:{
             errorMessage: "Le categorie sono un campo obbligatorio",
@@ -76,15 +76,15 @@ const photoData = {
                 if(notNumberId){
                     throw new Error(`Uno o più id non sono numeri interi`);
                 }
-                const category = await prisma.category.findMany({
+                const categories = await prisma.category.findMany({
                     where: {
                         id: {
                             in: ids
                         }
                     }
                 });
-                if(category.length !== ids.lenght){
-                    throw new Error(`uno degli ingredienti che hai inserito non esistono`)
+                if(categories.length !== ids.length){
+                    throw new Error(`una delle categorie che hai inserito non esistono`)
                 }
                 return true;
             }
