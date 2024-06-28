@@ -4,11 +4,20 @@ import axios from 'axios';
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const FormPhoto = ({ initialData, onSubmit, onClose }) => {
-    const [formData, setFormData] = useState(initialData);
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        image: '',
+        visible: false,
+        categories: [],
+        userId: 3 
+    });
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        setFormData(initialData);
+        if (initialData) {
+            setFormData(initialData);
+        }
     }, [initialData]);
 
     useEffect(() => {
@@ -17,7 +26,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                 const { data } = await axios.get(`${apiUrl}/category`);
                 const categoriesWithChecked = data.map(category => ({
                     ...category,
-                    checked: initialData.categories.some(cat => cat.id === category.id)
+                    checked: initialData ? initialData.categories.some(cat => cat.id === category.id) : false
                 }));
                 setCategories(categoriesWithChecked);
             } catch (error) {
@@ -53,7 +62,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                 categories: categories.filter(cat => cat.checked).map(cat => cat.id),
                 userId: formData.userId
             };
-            console.log('Sending data:', updatedFormData);  
+            console.log('Sending data:', updatedFormData);  // Stampa di debug
             onSubmit(updatedFormData);
         } catch (error) {
             console.error('Error updating photo:', error);
@@ -72,6 +81,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                             placeholder="Titolo del blog"
                             value={formData.title}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                     <div className="form-group">
@@ -81,6 +91,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                             placeholder="URL dell'immagine"
                             value={formData.image}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                     <div className="form-group">
@@ -89,6 +100,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                             placeholder="Descrizione del blog"
                             value={formData.description}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
                     <div className="form-group checkbox-group">
