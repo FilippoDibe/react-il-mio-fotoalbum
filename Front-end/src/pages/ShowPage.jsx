@@ -4,6 +4,7 @@ import axios from 'axios';
 import DeleteButton from '../components/deleteButton/deleteButton'; 
 import UpdateButton from '../components/deleteButton/updateButton';
 import FormPhoto from '../components/form/FormPhoto';
+import { useAuth } from '../contexts/AuthContext';
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -39,8 +40,6 @@ const ShowPage = () => {
                 }
             });
             if (res.status < 400) {
-                setPhoto(res.data); 
-                setIsFormVisible(false); 
                 navigate(`/photo/${res.data.slug}`);
             }
         } catch (error) {
