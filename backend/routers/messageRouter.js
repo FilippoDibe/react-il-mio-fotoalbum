@@ -4,7 +4,7 @@ const validator = require("../middlewares/validator.js")
 const { messageData } = require("../validations/messageValidation.js")
 const {create, index, destroy} = require ("../controllers/messageController.js")
 
-router.post("/",validator(messageData), create)
+router.post("/", create)
 router.get("/", index)
 router.delete("/:id", destroy)
 

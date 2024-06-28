@@ -7,6 +7,8 @@ const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const Home = () => {
     const [photos, setPhotos] = useState([]);
+    const [messages, setMessages] = useState([]);
+
 
     useEffect(() => {
         const fetchPhotos = async () => {
@@ -32,12 +34,28 @@ const Home = () => {
         setPhotos(prevPhotos => prevPhotos.map(photo => photo.slug === updatedPhoto.slug ? updatedPhoto : photo));
     };
 
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const { data } = await axios.get(`${apiUrl}/message`);
+                setMessages(data);
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        };
+
+        fetchMessages();
+    }, []);
+
+    const createMessage = (newMessage) => {
+        setMessages([...messages, newMessage]);
+    };
     return (
         <>
             {photos.map((photo) => (
                 <PhotoCard key={photo.id} photo={photo} onDelete={handleDelete} onUpdate={handleUpdate} />
             ))}
-            <FormMessage />
+            <FormMessage onCreate={createMessage}/>
         </>
     );
 };

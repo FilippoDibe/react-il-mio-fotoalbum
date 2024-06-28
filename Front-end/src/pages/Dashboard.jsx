@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormPhoto from '../components/form/FormPhoto';
 import CategoryForm from '../components/form/FormCategory';
+import CardMessage from '../components/cards/MessageCard';
 import { useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
@@ -10,9 +11,11 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         fetchCategories();
+        fetchMessages();
     }, []);
 
     const fetchCategories = async () => {
@@ -21,6 +24,15 @@ const Dashboard = () => {
             setCategories(data);
         } catch (error) {
             console.error('Error fetching categories:', error);
+        }
+    };
+
+    const fetchMessages = async () => {
+        try {
+            const { data } = await axios.get(`${apiUrl}/message`);
+            setMessages(data);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
         }
     };
 
@@ -52,6 +64,15 @@ const Dashboard = () => {
         }
     };
 
+    const deleteMessage = async (messageId) => {
+        try {
+            await axios.delete(`${apiUrl}/message/${messageId}`);
+            setMessages(messages.filter(message => message.id !== messageId));
+        } catch (error) {
+            console.error('Error deleting message:', error);
+        }
+    };
+
     return (
         <div>
             <button onClick={() => setIsFormVisible(!isFormVisible)}>Aggiungi Nuova Foto</button>
@@ -72,9 +93,16 @@ const Dashboard = () => {
                     </li>
                 ))}
             </ul>
+            <h2>Messaggi</h2>
+            <ul>
+                {messages.map((message) => (
+                    <li key={message.id}>
+                        <CardMessage message={message} onDelete={deleteMessage} />
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
 
 export default Dashboard;
-
