@@ -1,13 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const FormPhoto = ({ initialData, onSubmit, onClose }) => {
     const [formData, setFormData] = useState(initialData);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         setFormData(initialData);
+    }, [initialData]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const { data } = await axios.get(`${apiUrl}/category`);
+                const categoriesWithChecked = data.map(category => ({
+                    ...category,
+                    checked: initialData.categories.some(cat => cat.id === category.id)
+                }));
+                setCategories(categoriesWithChecked);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
     }, [initialData]);
 
     const handleChange = (e) => {
@@ -18,21 +36,25 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
         }));
     };
 
-    const handleCategoryChange = (index) => {
-        setFormData(prevState => {
-            const updatedCategories = [...prevState.categories];
-            updatedCategories[index].checked = !updatedCategories[index].checked;
-            return { ...prevState, categories: updatedCategories };
-        });
+    const handleCategoryChange = (categoryId) => {
+        setCategories(prevCategories => prevCategories.map(cat =>
+            cat.id === categoryId ? { ...cat, checked: !cat.checked } : cat
+        ));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`${apiUrl}/photo/${formData.slug}`, formData);
-            console.log('Update response:', response.data);
-            onSubmit(response.data); // Pass the updated data to the parent component
-            onClose();
+            const updatedFormData = {
+                title: formData.title,
+                description: formData.description,
+                image: formData.image,
+                visible: formData.visible,
+                categories: categories.filter(cat => cat.checked).map(cat => cat.id),
+                userId: formData.userId
+            };
+            console.log('Sending data:', updatedFormData);  
+            onSubmit(updatedFormData);
         } catch (error) {
             console.error('Error updating photo:', error);
         }
@@ -63,21 +85,21 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                     </div>
                     <div className="form-group">
                         <textarea
-                            name="content"
-                            placeholder="Contenuto del blog"
-                            value={formData.content}
+                            name="description"
+                            placeholder="Descrizione del blog"
+                            value={formData.description}
                             onChange={handleChange}
                         ></textarea>
                     </div>
                     <div className="form-group checkbox-group">
                         <p>Categorie:</p>
-                        {formData.categories.map((category, index) => (
-                            <label key={index}>
+                        {categories.map((category) => (
+                            <label key={category.id}>
                                 <input
                                     type="checkbox"
                                     name="categories"
                                     checked={category.checked}
-                                    onChange={() => handleCategoryChange(index)}
+                                    onChange={() => handleCategoryChange(category.id)}
                                 />
                                 {category.name}
                             </label>
@@ -87,8 +109,8 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                         <label>
                             <input
                                 type="checkbox"
-                                name="published"
-                                checked={formData.published}
+                                name="visible"
+                                checked={formData.visible}
                                 onChange={handleChange}
                             />
                             Pubblicato
