@@ -44,6 +44,6 @@ model Category {
 
 model Message {
   id         Int    @id @default(autoincrement())
-  senderMail String @unique
+  senderMail String
   message    String @db.Text
 }

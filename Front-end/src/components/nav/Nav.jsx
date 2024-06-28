@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-// import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import './Nav.css';
 
 const urlPages = [
@@ -18,7 +18,7 @@ const urlPages = [
 ]
 
 const Nav = () => {
-    // const { isLoggedIn, logout } = useAuth();
+     const { isLoggedIn, logout } = useAuth();
 
     return (
         <header>
@@ -29,9 +29,9 @@ const Nav = () => {
                             <NavLink to={href}>{label}</NavLink>
                         </li>
                     ))}
-                    {/* {isLoggedIn && (
-                    <button onClick={logout} className="logoutButton">Logout</button>
-                )} */}
+                    {isLoggedIn && (
+                    <button onClick={logout} >Logout</button>
+                )}
                 </menu>
             </nav>
         </header>
