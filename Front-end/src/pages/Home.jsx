@@ -2,19 +2,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PhotoCard from "../components/cards/PhotoCard";
 import FormMessage from "../components/form/FormMessage";
+import { useAuth } from "../contexts/AuthContext";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const Home = () => {
     const [photos, setPhotos] = useState([]);
     const [messages, setMessages] = useState([]);
-
+    const { isLoggedIn } = useAuth();
 
     useEffect(() => {
         const fetchPhotos = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/photo`);
-                console.log('Fetched photos:', response.data); 
+                const response = await axios.get(`${apiUrl}/photo`, {
+                    params: {
+                        visible: isLoggedIn ? undefined : 'true',
+                    },
+                });
+                console.log('Fetched photos:', response.data);
                 setPhotos(response.data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
@@ -22,10 +27,10 @@ const Home = () => {
         };
 
         fetchPhotos();
-    }, []);
+    }, [isLoggedIn]);
 
     const handleDelete = (slug) => {
-        console.log('Deleting photo with slug:', slug); 
+        console.log('Deleting photo with slug:', slug);
         setPhotos(prevPhotos => prevPhotos.filter(photo => photo.slug !== slug));
     };
 
@@ -50,12 +55,13 @@ const Home = () => {
     const createMessage = (newMessage) => {
         setMessages([...messages, newMessage]);
     };
+
     return (
         <>
             {photos.map((photo) => (
                 <PhotoCard key={photo.id} photo={photo} onDelete={handleDelete} onUpdate={handleUpdate} />
             ))}
-            <FormMessage onCreate={createMessage}/>
+            <FormMessage onCreate={createMessage} />
         </>
     );
 };
