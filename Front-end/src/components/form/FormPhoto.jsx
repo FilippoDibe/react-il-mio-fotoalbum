@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from "./Form.module.css";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -70,11 +71,11 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
     };
 
     return (
-        <div>
-            <div>
-                <button onClick={onClose}>X</button>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+        <div className={styles.photoModal}>
+            <div className={styles.photoModalContent}>
+                <button onClick={onClose} className={styles.photoCloseButton}>X</button>
+                <form onSubmit={handleSubmit} className={styles.photoForm}>
+                    <div className={styles.photoFormGroup}>
                         <input
                             type="text"
                             name="title"
@@ -82,9 +83,10 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                             value={formData.title}
                             onChange={handleChange}
                             required
+                            className={styles.photoInput}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.photoFormGroup}>
                         <input
                             type="text"
                             name="image"
@@ -92,47 +94,52 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                             value={formData.image}
                             onChange={handleChange}
                             required
+                            className={styles.photoInput}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.photoFormGroup}>
                         <textarea
                             name="description"
                             placeholder="Descrizione del blog"
                             value={formData.description}
                             onChange={handleChange}
                             required
+                            className={styles.photoTextarea}
                         ></textarea>
                     </div>
-                    <div className="form-group checkbox-group">
+                    <div className={`${styles.photoFormGroup} ${styles.photoCheckboxGroup}`}>
                         <p>Categorie:</p>
                         {categories.map((category) => (
-                            <label key={category.id}>
+                            <label key={category.id} className={styles.photoCheckboxLabel}>
                                 <input
                                     type="checkbox"
                                     name="categories"
                                     checked={category.checked}
                                     onChange={() => handleCategoryChange(category.id)}
+                                    className={styles.photoCheckbox}
                                 />
                                 {category.name}
                             </label>
                         ))}
                     </div>
-                    <div className="form-group">
-                        <label>
+                    <div className={styles.photoFormGroup}>
+                        <label className={styles.photoCheckboxLabel}>
                             <input
                                 type="checkbox"
                                 name="visible"
                                 checked={formData.visible}
                                 onChange={handleChange}
+                                className={styles.photoCheckbox}
                             />
                             Pubblicato
                         </label>
                     </div>
-                    <button type="submit">Salva</button>
+                    <button type="submit" className={styles.photoButton}>Salva</button>
                 </form>
             </div>
         </div>
     );
 };
+
 
 export default FormPhoto;

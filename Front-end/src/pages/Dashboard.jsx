@@ -4,6 +4,7 @@ import FormPhoto from '../components/form/FormPhoto';
 import CategoryForm from '../components/form/FormCategory';
 import CardMessage from '../components/cards/MessageCard';
 import { useNavigate } from 'react-router-dom';
+import styles from "./Pages.module.css";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -74,8 +75,13 @@ const Dashboard = () => {
     };
 
     return (
-        <div>
-            <button onClick={() => setIsFormVisible(!isFormVisible)}>Aggiungi Nuova Foto</button>
+        <div className={styles.dashContainer}>
+            <button 
+                onClick={() => setIsFormVisible(!isFormVisible)} 
+                className={styles.dashButton}
+            >
+                Aggiungi Nuova Foto
+            </button>
             {isFormVisible && (
                 <FormPhoto 
                     initialData={null} 
@@ -83,20 +89,25 @@ const Dashboard = () => {
                     onClose={() => setIsFormVisible(false)} 
                 />
             )}
-            <h2>Gestione Categorie</h2>
+            <h2 className={styles.dashHeading}>Gestione Categorie</h2>
             <CategoryForm onCreate={createCategory} />
-            <ul>
+            <ul className={styles.dashCategoryList}>
                 {categories.map((category) => (
-                    <li key={category.id}>
+                    <li key={category.id} className={styles.dashCategoryItem}>
                         {category.name}
-                        <button onClick={() => deleteCategory(category.id)}>Delete</button>
+                        <button 
+                            onClick={() => deleteCategory(category.id)} 
+                            className={styles.dashDeleteButton}
+                        >
+                            Delete
+                        </button>
                     </li>
                 ))}
             </ul>
-            <h2>Messaggi</h2>
-            <ul>
+            <h2 className={styles.dashHeading}>Messaggi</h2>
+            <ul className={styles.dashMessageList}>
                 {messages.map((message) => (
-                    <li key={message.id}>
+                    <li key={message.id} className={styles.dashMessageItem}>
                         <CardMessage message={message} onDelete={deleteMessage} />
                     </li>
                 ))}
@@ -104,5 +115,4 @@ const Dashboard = () => {
         </div>
     );
 };
-
 export default Dashboard;

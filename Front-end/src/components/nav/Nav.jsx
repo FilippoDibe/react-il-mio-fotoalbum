@@ -20,19 +20,21 @@ const urlPages = [
 const Nav = () => {
      const { isLoggedIn, logout } = useAuth();
 
-    return (
+     return (
         <header>
             <nav className="navbar">
-                <menu>
+                <ul className="navbar-menu">
                     {urlPages.map(({ label, href }, i) => (
-                        <li key={`urlPage${i}`}>
-                            <NavLink to={href}>{label}</NavLink>
+                        <li key={`urlPage${i}`} className="navbar-item">
+                            <NavLink to={href} className="navbar-link">{label}</NavLink>
                         </li>
                     ))}
                     {isLoggedIn && (
-                    <button onClick={logout} >Logout</button>
-                )}
-                </menu>
+                        <li className="navbar-item">
+                            <button onClick={logout} className="navbar-button">Logout</button>
+                        </li>
+                    )}
+                </ul>
             </nav>
         </header>
     );

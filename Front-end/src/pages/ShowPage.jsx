@@ -5,6 +5,8 @@ import DeleteButton from '../components/deleteButton/deleteButton';
 import UpdateButton from '../components/deleteButton/updateButton';
 import FormPhoto from '../components/form/FormPhoto';
 import { useAuth } from '../contexts/AuthContext';
+import styles from "./Pages.module.css";
+
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -30,7 +32,6 @@ const ShowPage = () => {
 
         fetchPhoto();
     }, [slug]);
-
     const updatePhoto = async (formData) => {
         try {
             const url = `${apiUrl}/photo/${slug}`;
@@ -40,7 +41,12 @@ const ShowPage = () => {
                 }
             });
             if (res.status < 400) {
-                navigate(`/photo/${res.data.slug}`);
+                setPhoto({
+                    ...res.data,
+                    published: res.data.visible, // update the state with the new data
+                    categories: res.data.categories.map(cat => ({ ...cat, checked: true }))
+                });
+                setIsFormVisible(false); // hide the form after update
             }
         } catch (error) {
             console.error('Error updating photo:', error);
@@ -61,15 +67,15 @@ const ShowPage = () => {
     }
 
     return (
-        <div>
-            <h1>{photo.title}</h1>
-            <img src={photo.image} alt={photo.title} />
-            <p>{photo.description}</p>
-            <div>
+        <div className={styles.showContainer}>
+            <h1 className={styles.showTitle}>{photo.title}</h1>
+            <img src={photo.image} alt={photo.title} className={styles.showImage} />
+            <p className={styles.showDescription}>{photo.description}</p>
+            <div className={styles.showCategories}>
                 <strong>Categorie:</strong>
-                <ul>
+                <ul className={styles.showCategoryList}>
                     {photo.categories.map((category) => (
-                        <li key={category.id}>{category.name}</li>
+                        <li key={category.id} className={styles.showCategoryItem}>{category.name}</li>
                     ))}
                 </ul>
             </div>
@@ -85,5 +91,6 @@ const ShowPage = () => {
         </div>
     );
 };
+
 
 export default ShowPage;

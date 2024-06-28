@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import styles from "./Pages.module.css";
 
-export default function(){
-
+export default function LoginPage() {
     const { login } = useAuth();
 
     const initialData = {
@@ -22,35 +22,38 @@ export default function(){
 
     const handleSubmit = async e => {
         e.preventDefault();
-        try{
+        try {
             await login(formData);
             setFormData(initialData);
-        }catch(err){
+        } catch (err) {
             setLoginError(err);
         }
     }
 
-    return(<>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text"
-                placeholder="Email" 
-                value={formData.email}
-                onChange={e => changeData('email', e.target.value)}
-            />
-            <input 
-                type="password"
-                placeholder="Password" 
-                value={formData.password}
-                onChange={e => changeData('password', e.target.value)}
-            />
-            {loginError !== null && <div className="error">{loginError.message}</div>}
-            {loginError?.errors && loginError.errors.map( (err, index) => (
-                <div key={`err${index}`}>{err.msg}</div>
-            ))}
-            <button>Loggati</button>
-        </form>
-    </>)
-
+    return (
+        <div className={styles.loginContainer}>
+            <h1 className={styles.loginTitle}>Login</h1>
+            <form onSubmit={handleSubmit} className={styles.loginForm}>
+                <input
+                    type="text"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={e => changeData('email', e.target.value)}
+                    className={styles.loginInput}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={e => changeData('password', e.target.value)}
+                    className={styles.loginInput}
+                />
+                {loginError !== null && <div className={styles.loginError}>{loginError.message}</div>}
+                {loginError?.errors && loginError.errors.map((err, index) => (
+                    <div key={`err${index}`} className={styles.loginError}>{err.msg}</div>
+                ))}
+                <button type="submit" className={styles.loginButton}>Loggati</button>
+            </form>
+        </div>
+    );
 }

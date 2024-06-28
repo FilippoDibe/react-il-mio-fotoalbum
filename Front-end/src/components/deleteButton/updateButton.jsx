@@ -11,7 +11,7 @@ const UpdateButton = ({ onClick }) => {
 
     return (
         <button className={style.edit} onClick={onClick}>
-            <FaEdit />
+            <FaEdit className={style.icon} />
         </button>
     );
 };

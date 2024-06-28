@@ -1,0 +1,223 @@
+/* LOGIN PAGE */
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.loginTitle {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.loginForm {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loginInput {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.loginInput:focus {
+    border-color: #ff9900;
+    outline: none;
+}
+
+.loginError {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+.loginButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff9900;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+    background-color: #cc7a00;
+}
+/* FINE LOGIN PAGE */
+
+/* SHOW PAGE */
+.showContainer {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.showTitle {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.showImage {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.showDescription {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.showCategories {
+    margin-bottom: 20px;
+}
+
+.showCategoryList {
+    list-style: none;
+    padding: 0;
+}
+
+.showCategoryItem {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+/* FINE SHOW PAGE */
+
+/* DASHBOARD */
+.dashContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashButton {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.dashButton:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.dashHeading {
+    font-size: 1.75rem;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.dashCategoryList, .dashMessageList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.dashCategoryItem, .dashMessageItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashCategoryItem:hover, .dashMessageItem:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+.dashDeleteButton {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashDeleteButton:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Overlay e form container */
+.dashFormOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashFormContainer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+}
+
+.dashCloseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999999;
+}
+
+.dashCloseButton:hover {
+    color: #ff0000;
+}
+/* FINE DASHBOARD */

@@ -23,8 +23,9 @@ const DeleteButton = ({ slug, onDelete }) => {
 
     return (
         <button className={style.trash} onClick={handleDelete}>
-            <FaTrash />
+            <FaTrash className={style.icon} />
         </button>
+
     );
 };
 

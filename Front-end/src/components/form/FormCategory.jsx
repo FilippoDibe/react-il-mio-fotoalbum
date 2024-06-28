@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import styles from "./Form.module.css";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -18,8 +19,8 @@ const CategoryForm = ({ onCreate }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
+        <form onSubmit={handleSubmit} className={styles.categoryForm}>
+            <div className={styles.categoryFormGroup}>
                 <input
                     type="text"
                     name="name"
@@ -27,9 +28,10 @@ const CategoryForm = ({ onCreate }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
+                    className={styles.categoryInput}
                 />
             </div>
-            <button type="submit">Crea Categoria</button>
+            <button type="submit" className={styles.categoryButton}>Crea Categoria</button>
         </form>
     );
 };

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import style from "./Form.module.css";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -20,29 +21,34 @@ const FormMessage = ({ onCreate }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <input
-                    type="email"
-                    name="senderMail"
-                    placeholder="Email"
-                    value={senderMail}
-                    onChange={(e) => setSenderMail(e.target.value)}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <textarea
-                    name="message"
-                    placeholder="Messaggio"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                ></textarea>
-            </div>
-            <button type="submit">Invia Messaggio</button>
-        </form>
+        <div className={style.messageFormContainer}>
+            <form onSubmit={handleSubmit} className={style.messageForm}>
+                <div className={style.messageFormGroup}>
+                    <input
+                        type="email"
+                        name="senderMail"
+                        placeholder="Email"
+                        value={senderMail}
+                        onChange={(e) => setSenderMail(e.target.value)}
+                        required
+                        className={style.messageInput}
+                    />
+                </div>
+                <div className={style.messageFormGroup}>
+                    <textarea
+                        name="message"
+                        placeholder="Messaggio"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        required
+                        className={style.messageTextarea}
+                    ></textarea>
+                </div>
+                <button type="submit" className={style.messageButton}>Invia Messaggio</button>
+            </form>
+        </div>
     );
 };
+
 
 export default FormMessage;
