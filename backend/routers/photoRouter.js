@@ -5,12 +5,13 @@ const {photoData} = require("../validations/photoValidation.js")
 const {create, index, update, showBySlug, destroy} = require ("../controllers/photoController.js");
 const uniqueSlug = require ("../middlewares/uniqueSlug.js");
 const protect = require ("../middlewares/authMiddleware.js")
+const upload = require ("../middlewares/upload.js")
 
 
 
 router.get("/", index)
 router.get("/:slug", showBySlug)
-router.post("/",validator(photoData),  uniqueSlug, create)
+router.post("/", upload.single("image"), uniqueSlug, create)
 router.put("/:slug",validator(photoData), update)
 router.delete("/:slug", destroy)
 

@@ -5,13 +5,37 @@ const errorHandler = require("../middlewares/errorHandler.js");
 
 
 const create = async (req, res) => {
-    const { title, slug, description, categories, image, userId } = req.body;
+    const { title, slug, description, categories, userId } = req.body;
+    const image = req.file ? req.file.filename : null;
 
     if (!title || !description || !categories || !image) {
-        return res.status(400).json({ error: 'tutti i campi sono obbligatori' });
+        return res.status(400).json({ error: 'Tutti i campi sono obbligatori' });
     }
 
     const generatedSlug = slug || await uniqueSlug(title);
+
+    // Parsing delle categorie
+    let categoryIds;
+    try {
+        categoryIds = JSON.parse(categories).map(id => {
+            const parsedId = parseInt(id, 10);
+            if (isNaN(parsedId)) {
+                throw new Error('Invalid category ID');
+            }
+            return parsedId;
+        });
+
+        // Verifica che tutte le categorie esistano nel database
+        const existingCategories = await prisma.category.findMany({
+            where: { id: { in: categoryIds } }
+        });
+
+        if (existingCategories.length !== categoryIds.length) {
+            return res.status(400).json({ error: 'Una o più categorie specificate non esistono' });
+        }
+    } catch (error) {
+        return res.status(400).json({ error: 'Formato delle categorie non valido' });
+    }
 
     const data = {
         title,
@@ -20,9 +44,9 @@ const create = async (req, res) => {
         description,
         visible: req.body.visible ? true : false,
         categories: {
-            connect: categories.map(categoryId => ({ id: categoryId }))
+            connect: categoryIds.map(id => ({ id }))
         },
-        userId
+        userId: parseInt(userId, 10)
     };
 
     try {
@@ -30,11 +54,11 @@ const create = async (req, res) => {
             data,
             include: {
                 categories: true,
-                user:true
+                user: true
             }
         });
         res.status(200).json(photo);
-    } catch (err) {       
+    } catch (err) {
         errorHandler(err, req, res);
     }
 };
