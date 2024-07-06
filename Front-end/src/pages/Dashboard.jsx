@@ -41,7 +41,7 @@ const Dashboard = () => {
         try {
             const res = await axios.post(`${apiUrl}/photo`, formData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             if (res.status < 400) {

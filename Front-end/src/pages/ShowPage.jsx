@@ -69,7 +69,7 @@ const ShowPage = () => {
     return (
         <div className={styles.showContainer}>
             <h1 className={styles.showTitle}>{photo.title}</h1>
-            <img src={photo.image} alt={photo.title} className={styles.showImage} />
+            <img src={`${apiUrl}/images/${photo.image}`} alt={photo.title} className={styles.photoImg} />
             <p className={styles.showDescription}>{photo.description}</p>
             <div className={styles.showCategories}>
                 <strong>Categorie:</strong>

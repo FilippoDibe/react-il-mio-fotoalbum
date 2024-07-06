@@ -14,6 +14,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
         userId: 3 
     });
     const [categories, setCategories] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
 
     useEffect(() => {
         if (initialData) {
@@ -39,11 +40,15 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
     }, [initialData]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        const { name, value, type, checked, files } = e.target;
+        if (type === 'file') {
+            setImageFile(files[0]);
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: type === 'checkbox' ? checked : value
+            }));
+        }
     };
 
     const handleCategoryChange = (categoryId) => {
@@ -55,18 +60,28 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updatedFormData = {
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('description', formData.description);
+            formDataToSend.append('visible', formData.visible);
+            formDataToSend.append('userId', formData.userId);
+            if (imageFile) {
+                formDataToSend.append('image', imageFile);
+            }
+            formDataToSend.append('categories', JSON.stringify(categories.filter(cat => cat.checked).map(cat => cat.id)));
+
+            console.log('Sending data:', {
                 title: formData.title,
                 description: formData.description,
-                image: formData.image,
                 visible: formData.visible,
-                categories: categories.filter(cat => cat.checked).map(cat => cat.id),
-                userId: formData.userId
-            };
-            console.log('Sending data:', updatedFormData);  // Stampa di debug
-            onSubmit(updatedFormData);
+                userId: formData.userId,
+                image: imageFile,
+                categories: JSON.stringify(categories.filter(cat => cat.checked).map(cat => cat.id))
+            });
+
+            onSubmit(formDataToSend);
         } catch (error) {
-            console.error('Error updating photo:', error);
+            console.error('Error creating photo:', error);
         }
     };
 
@@ -74,7 +89,7 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
         <div className={styles.photoModal}>
             <div className={styles.photoModalContent}>
                 <button onClick={onClose} className={styles.photoCloseButton}>X</button>
-                <form onSubmit={handleSubmit} className={styles.photoForm}>
+                <form onSubmit={handleSubmit} className={styles.photoForm} encType="multipart/form-data">
                     <div className={styles.photoFormGroup}>
                         <input
                             type="text"
@@ -88,10 +103,9 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
                     </div>
                     <div className={styles.photoFormGroup}>
                         <input
-                            type="text"
+                            type="file"
                             name="image"
-                            placeholder="URL dell'immagine"
-                            value={formData.image}
+                            accept="image/*"
                             onChange={handleChange}
                             required
                             className={styles.photoInput}
@@ -140,6 +154,5 @@ const FormPhoto = ({ initialData, onSubmit, onClose }) => {
         </div>
     );
 };
-
 
 export default FormPhoto;
