@@ -63,24 +63,33 @@ const create = async (req, res) => {
     }
 };
 
-const index = async(req, res) => {
-    const {visible} = req.query;
-    try{
-        const photo = await prisma.photo.findMany({
-            where: {
-                AND: [
-                    visible !== undefined ? {visible: visible === 'true'} : {},
-                ]
+const index = async (req, res) => {
+    const { visible, title, categoryName } = req.query;
+
+    try {
+        const whereClause = {
+            AND: [
+                visible !== undefined ? { visible: visible === 'true' } : {},
+                title ? { title: { contains: title } } : {},
+                categoryName ? { categories: { some: { name: { contains: categoryName } } } } : {},
+            ],
+        };
+
+        const photos = await prisma.photo.findMany({
+            where: whereClause,
+            include: {
+                categories: true,
             },
-            include:{
-                categories: true
-            }
-        })
-        res.json(photo)
-    }catch(err){
-        errorHandler(err, req, res)
+        });
+
+        res.json(photos);
+    } catch (err) {
+        errorHandler(err, req, res);
     }
-}
+};
+
+
+
 const showBySlug = async (req, res) => {
     try{
         const {slug} = req.params;
