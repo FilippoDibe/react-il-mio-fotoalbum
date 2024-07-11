@@ -3,6 +3,7 @@ import axios from "axios";
 import PhotoCard from "../components/cards/PhotoCard";
 import FormMessage from "../components/form/FormMessage";
 import { useAuth } from "../contexts/AuthContext";
+import SearchBar from "../components/serchbar/SerchBar";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -55,9 +56,13 @@ const Home = () => {
     const createMessage = (newMessage) => {
         setMessages([...messages, newMessage]);
     };
+    const handleSearchResults = (results) => {
+        setPhotos(results);
+    };
 
     return (
         <>
+            <SearchBar onSearchResults={handleSearchResults} />
             {photos.map((photo) => (
                 <PhotoCard key={photo.id} photo={photo} onDelete={handleDelete} onUpdate={handleUpdate} />
             ))}
