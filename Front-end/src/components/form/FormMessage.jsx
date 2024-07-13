@@ -21,8 +21,10 @@ const FormMessage = ({ onCreate }) => {
     };
 
     return (
+       <>
         <div className={style.messageFormContainer}>
             <form onSubmit={handleSubmit} className={style.messageForm}>
+                <h1>Contattami</h1>
                 <div className={style.messageFormGroup}>
                     <input
                         type="email"
@@ -47,6 +49,7 @@ const FormMessage = ({ onCreate }) => {
                 <button type="submit" className={style.messageButton}>Invia Messaggio</button>
             </form>
         </div>
+       </>
     );
 };
 
